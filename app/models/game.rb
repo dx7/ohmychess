@@ -2,9 +2,10 @@ require_relative '../../config/application'
 
 class Game
 
-  def initialize
+  def initialize(theme_name: nil)
     @board = Board.new
-    @display = Display.new(@board)
+    @theme = Theme.new(theme_name)
+    @display = Display.new(@board, @theme)
   end
 
   def play

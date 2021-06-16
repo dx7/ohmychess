@@ -1,0 +1,12 @@
+theme: dark
+created_by: rafaeldx7
+colors:
+  board:
+    light_square: "\e[48;5;144m"
+    dark_square: "\e[48;5;137m"
+  pieces:
+    white: "\e[38;5;253m"
+    black: "\e[38;5;256m"
+  axes:
+    rankes: "\e[90m"
+    files: "\e[90m"

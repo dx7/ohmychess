@@ -16,4 +16,12 @@ class Board
     end
   end
 
+  def at(i, j)
+    @grid[i][j] || UnoccupiedSquare
+  end
+
+  def self.square_color_at(i, j)
+    (i + j).odd? ? 'dark_square' : 'light_square'
+  end
+
 end

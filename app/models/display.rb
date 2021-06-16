@@ -1,43 +1,26 @@
 class Display
 
-  def initialize(board)
+  def initialize(board, theme)
     @board = board
+    @theme = theme
   end
 
   def build_grid
     @board.grid.map.with_index do |row, i|
-      build_row(row, i)
-    end
-  end
-
-  def build_row(row, i)
-    row.map.with_index do |piece, j|
-      color = colors_for(i, j)
-
-      if piece.nil?
-        colorize("   ", fg: color[:fg], bg: color[:bg])
-      else
-        colorize(piece.to_s, fg: color[:fg], bg: color[:bg])
+      row.map.with_index do |_, j|
+        colorize(@board.at(i, j), colors_for(i, j))
       end
     end
   end
 
   # Ref.: https://misc.flogisoft.com/bash/tip_colors_and_formatting
   def colors_for(i, j)
-    color = {}
-    piece = @board.grid[i][j]
+    piece = @board.at(i, j)
 
-    if (i + j).odd?
-      color[:bg] = :black
-    else
-      color[:bg] = :dark_gray
-    end
-
-    if piece
-      color[:fg] = piece.white? ? :white : :light_yellow
-    end
-
-    color
+    [
+      @theme.colors.pieces[piece.color],
+      @theme.colors.board[Board.square_color_at(i, j)]
+    ]
   end
 
   def render
@@ -47,17 +30,15 @@ class Display
     puts "    Welcome."
     puts
 
-    build_grid.each_with_index { |row, idx| puts colorize("    #{8 - idx}", fg: :dark_gray) << " #{row.join}" }
-    puts colorize("       a  b  c  d  e  f  g  h", fg: :dark_gray)
+    build_grid.each_with_index do |row, i|
+      puts colorize("    #{8 - i} #{row.join}", @theme.colors.axes.rankes)
+    end
+
+    puts colorize("       a  b  c  d  e  f  g  h", @theme.colors.axes.files)
     puts
   end
 
-  def colorize(s, fg: :default, bg: :default)
-    colors = {
-      fg:  { default: "\033[39m", light_yellow: "\033[93m", white: "\033[97m", dark_gray: "\033[90m" },
-      bg:  { default: "\033[49m", black: "\033[40m", dark_gray: "\033[100m" }
-    }
-
-    [colors[:bg][bg], colors[:fg][fg], s, "\033[0m"].join
+  def colorize(s, *colors)
+    [colors, s.to_s, Theme.colors.reset].flatten.join
   end
 end
