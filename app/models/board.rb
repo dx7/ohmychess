@@ -4,8 +4,8 @@ class Board
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
-    initial_position
   end
+
 
   def initial_position
     @grid.each_index do |i|

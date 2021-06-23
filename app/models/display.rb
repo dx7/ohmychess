@@ -1,7 +1,7 @@
 class Display
 
-  def initialize(board, theme)
-    @board = board
+  def initialize(game_session, theme)
+    @board = game_session.board
     @theme = theme
   end
 

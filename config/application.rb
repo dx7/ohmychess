@@ -11,6 +11,7 @@ BLACK = :black
 WHITE = :white
 BLANK = :blank
 
+require 'fen'
 require 'unoccupied_square'
 require 'piece'
 require 'king'
@@ -22,7 +23,7 @@ require 'rook'
 require 'board'
 require 'theme'
 require 'display'
-require 'game'
+require 'game_session'
 
 module App
   class << self
